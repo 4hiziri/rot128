@@ -49,7 +49,6 @@ impl Converter for Decoder {
 }
 
 fn parse_args(args: &[String]) -> getopts::Matches {
-    // Is this works?
     let mut opts = Options::new();
     opts.optflag("d", "decode", "decode input");
     opts.optflag("e", "encode", "encode input");
@@ -86,7 +85,6 @@ fn convert<T: Converter>(converter: T) {
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    // let scripts_name = args[0].clone();
     let matches = parse_args(&args[1..]);
 
     let key = match get_key(matches.opt_str("k")) {
@@ -99,18 +97,4 @@ fn main() {
     } else {
         convert(Encoder::new(key));
     };
-}
-
-#[test]
-fn test_encode_byte() {
-    assert_eq!(encode_byte(0, 14), 14);
-    assert_eq!(encode_byte(255, 1), 0);
-    assert_eq!(encode_byte(254, 23), 21);
-}
-
-#[test]
-fn test_decode_byte() {
-    assert_eq!(decode_byte(encode_byte(0, 14), 14), 0);
-    assert_eq!(decode_byte(encode_byte(255, 1), 1), 255);
-    assert_eq!(decode_byte(encode_byte(254, 23), 23), 254);
 }
